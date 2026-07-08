@@ -1,9 +1,17 @@
 REQUIRED_FIELDS = ("study_hours", "workout_minutes", "expense", "mood")
+
 FIELD_TYPES = {
     "study_hours": float,
     "workout_minutes": int,
     "expense": float,
     "mood": int,
+}
+
+FIELD_RANGES = {
+    "study_hours": (0, 24),
+    "workout_minutes": (0, 1440),
+    "expense": (0, float("inf")),
+    "mood": (1, 10),
 }
 
 
@@ -23,6 +31,16 @@ def collect_record() -> dict[str, int | float]:
                 field_val = FIELD_TYPES[field](
                     input(f"Enter your {cleaned_field} for today: ")
                 )
+
+                # Verify range
+                min_range_val, max_range_val = FIELD_RANGES[field]
+
+                if not (min_range_val <= field_val <= max_range_val):
+                    print(
+                        f"Input must be on the scale ({min_range_val}-{max_range_val})!"
+                    )
+                    continue
+
                 record[field] = field_val
                 break
 
