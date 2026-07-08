@@ -9,28 +9,25 @@ FIELD_TYPES = {
 
 def collect_record() -> dict[str, int | float]:
     """
-    Collect a record from the user and return it with values converted to their expected Python types.
+    Collect a record from the user and return it.
     """
 
-    raw_record = {}
+    record = {}
 
     for field in REQUIRED_FIELDS:
-        clean_field = field.replace("_", " ")
-        field_val = input(f"Enter your {clean_field} for today: ")
-        raw_record[field] = field_val
+        cleaned_field = field.replace("_", " ")
 
-    record = _convert_record_types(raw_record)
+        while True:
+
+            try:
+                field_val = FIELD_TYPES[field](
+                    input(f"Enter your {cleaned_field} for today: ")
+                )
+                record[field] = field_val
+                break
+
+            except ValueError:
+                print(f'Please enter valid numeric value for "{cleaned_field}"!')
+                continue
+
     return record
-
-
-def _convert_record_types(target_record: dict[str, str]) -> dict[str, int | float]:
-    """
-    Return a new record with values converted to their expected Python types.
-    """
-
-    modified_record = {}
-
-    for field, field_val in target_record.items():
-        modified_record[field] = FIELD_TYPES[field](field_val)
-
-    return modified_record
