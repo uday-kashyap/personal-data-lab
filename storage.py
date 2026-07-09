@@ -1,5 +1,6 @@
 import os
 import json
+from models import Record
 
 
 def ensure_records_file_exists(storage_location: str) -> None:
@@ -18,7 +19,7 @@ def ensure_records_file_exists(storage_location: str) -> None:
             json.dump([], file)
 
 
-def load_records(storage_location: str) -> list[dict]:
+def load_records(storage_location: str) -> list[Record]:
     """
     Return saved JSON records.
     """
@@ -29,7 +30,7 @@ def load_records(storage_location: str) -> list[dict]:
     return saved_records
 
 
-def save_records(modified_records: list[dict], storage_location: str) -> None:
+def save_records(modified_records: list[Record], storage_location: str) -> None:
     """
     Append the newly added record in the records file.
     """

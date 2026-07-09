@@ -1,4 +1,6 @@
 from datetime import date
+from models import Record
+from typing import cast
 
 REQUIRED_FIELDS = ("study_hours", "workout_minutes", "expense", "mood")
 
@@ -17,7 +19,7 @@ FIELD_RANGES = {
 }
 
 
-def collect_record() -> dict[str, int | float]:
+def collect_record() -> Record:
     """
     Collect a record from the user and return it.
     """
@@ -53,7 +55,7 @@ def collect_record() -> dict[str, int | float]:
                 print(f'Please enter valid numeric value for "{cleaned_field}"!')
                 continue
 
-    return record
+    return cast(Record, record)
 
 
 def _get_current_date() -> str:
