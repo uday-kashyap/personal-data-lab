@@ -1,3 +1,5 @@
+from datetime import date
+
 REQUIRED_FIELDS = ("study_hours", "workout_minutes", "expense", "mood")
 
 FIELD_TYPES = {
@@ -21,6 +23,9 @@ def collect_record() -> dict[str, int | float]:
     """
 
     record = {}
+
+    # Embed current date in the record
+    record["date"] = _get_current_date()
 
     for field in REQUIRED_FIELDS:
         cleaned_field = field.replace("_", " ")
@@ -49,3 +54,13 @@ def collect_record() -> dict[str, int | float]:
                 continue
 
     return record
+
+
+def _get_current_date() -> str:
+    """
+    Return today's date in YYYY/MM/DD format.
+    """
+
+    today = date.today()
+    formatted_date = today.strftime("%Y/%m/%d")
+    return formatted_date
