@@ -1,9 +1,10 @@
 import pytest
 import input_handler
+from models import Record
 
 
 @pytest.fixture
-def sample_record():
+def sample_record() -> Record:
     return {
         "date": "1999/01/01",
         "study_hours": 24.0,
@@ -14,5 +15,5 @@ def sample_record():
 
 
 @pytest.fixture
-def mock_current_date(monkeypatch):
+def mock_current_date(monkeypatch) -> None:
     monkeypatch.setattr(input_handler, "_get_current_date", lambda: "1999/01/01")

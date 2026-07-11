@@ -1,5 +1,6 @@
 import storage
 import json
+import pytest
 
 
 def test_ensure_records_file_exists_creates_missing_storage_directory(tmp_path):
@@ -47,3 +48,22 @@ def test_save_records_adds_new_record(tmp_path, sample_record):
         records = json.load(file)
 
     assert records == sample_records
+
+
+@pytest.mark.parametrize(
+    "sample_date, target_date, expected",
+    [("1999/01/01", "1999/01/01", True), ("1999/01/01", "1999/01/02", False)],
+)
+def test_has_record_for_date_with_existing_records(
+    sample_date, target_date, expected, sample_record
+):
+    stored_record = sample_record.copy()
+    stored_record["date"] = sample_date
+    stored_records = [sample_record]
+    result = storage.has_record_for_date(stored_records, target_date)
+    assert result is expected
+
+
+def test_has_record_for_date_returns_False_on_missing_records():
+    result = storage.has_record_for_date([], "1999/01/01")
+    assert result is False

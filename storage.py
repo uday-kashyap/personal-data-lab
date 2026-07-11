@@ -37,3 +37,14 @@ def save_records(modified_records: list[Record], storage_location: str) -> None:
 
     with open(storage_location, "w") as file:
         json.dump(modified_records, file, indent=4)
+
+
+def has_record_for_date(stored_records: list[Record], target_date: str) -> bool:
+    """
+    Return True if a record with target date already exists in records. Otherwise, return False.
+    """
+
+    if not stored_records:
+        return False
+
+    return stored_records[-1]["date"] == target_date
