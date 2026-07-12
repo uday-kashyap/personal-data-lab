@@ -66,3 +66,23 @@ def _get_current_date() -> str:
     today = date.today()
     formatted_date = today.strftime("%Y/%m/%d")
     return formatted_date
+
+
+def get_user_choice(features_dict: dict) -> int:
+    """
+    Ask user to choose valid option number for given dictionary of features and return it after validation.
+    """
+
+    while True:
+
+        try:
+            choice = int(input("Enter your choice: "))
+
+            if choice not in features_dict:
+                print("Please enter a valid option number!")
+                continue
+
+            return choice
+
+        except ValueError:
+            print("The option number must be an integer only!")
