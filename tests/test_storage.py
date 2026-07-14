@@ -67,3 +67,15 @@ def test_has_record_for_date_with_existing_records(
 def test_has_record_for_date_returns_False_on_missing_records():
     result = storage.has_record_for_date([], "1999/01/01")
     assert result is False
+
+
+def test_get_record_by_date_returns_record_of_given_date(sample_record):
+    stored_records = [sample_record]
+    record = storage.get_record_by_date(stored_records, "1999/01/01")
+    assert record == sample_record
+
+
+def test_get_record_by_date_returns_None_on_missing_record():
+    stored_records = []
+    record = storage.get_record_by_date(stored_records, "1999/01/01")
+    assert record is None

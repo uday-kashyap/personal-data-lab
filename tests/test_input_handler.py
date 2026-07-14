@@ -52,3 +52,17 @@ def test_get_user_choice_retries_on_invalid_choice_type(monkeypatch):
     monkeypatch.setattr(builtins, "input", lambda _: choices.pop(0))
     returned_choice = input_handler.get_user_choice(FEATURES)
     assert returned_choice == valid_value
+
+
+def test_get_date_attributes_from_user_returns_date_attributes(monkeypatch):
+    date_attributes = [1, 7, 2000]
+    monkeypatch.setattr(builtins, "input", lambda _: date_attributes.pop(0))
+    returned_date_attributes = input_handler.get_date_attributes_from_user()
+    assert returned_date_attributes == (1, 7, 2000)
+
+
+def test_get_date_attributes_from_user_retries_on_invalid_type(monkeypatch):
+    date_attributes = ["abc", "1.5", "k", 1, 7, 2000]
+    monkeypatch.setattr(builtins, "input", lambda _: date_attributes.pop(0))
+    returned_date_attributes = input_handler.get_date_attributes_from_user()
+    assert returned_date_attributes == (1, 7, 2000)

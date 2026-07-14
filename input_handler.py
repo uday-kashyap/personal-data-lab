@@ -1,4 +1,4 @@
-from datetime import date
+import date_utils
 from models import Record
 from typing import cast
 
@@ -27,7 +27,7 @@ def collect_record() -> Record:
     record = {}
 
     # Embed current date in the record
-    record["date"] = _get_current_date()
+    record["date"] = date_utils.get_current_date()
 
     for field in REQUIRED_FIELDS:
         cleaned_field = field.replace("_", " ")
@@ -58,16 +58,6 @@ def collect_record() -> Record:
     return cast(Record, record)
 
 
-def _get_current_date() -> str:
-    """
-    Return today's date in YYYY/MM/DD format.
-    """
-
-    today = date.today()
-    formatted_date = today.strftime("%Y/%m/%d")
-    return formatted_date
-
-
 def get_user_choice(features_dict: dict) -> int:
     """
     Ask user to choose valid option number for given dictionary of features and return it after validation.
@@ -86,3 +76,21 @@ def get_user_choice(features_dict: dict) -> int:
 
         except ValueError:
             print("The option number must be an integer only!")
+
+
+def get_date_attributes_from_user() -> tuple[int, int, int]:
+    """
+    Take day, month, year from the user and return them.
+    """
+
+    while True:
+
+        try:
+            day = int(input("Enter day: "))
+            month = int(input("Enter month: "))
+            year = int(input("Enter year: "))
+
+            return day, month, year
+
+        except ValueError:
+            print("Please enter a valid input!")

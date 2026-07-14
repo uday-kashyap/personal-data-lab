@@ -48,3 +48,16 @@ def has_record_for_date(stored_records: list[Record], target_date: str) -> bool:
         return False
 
     return stored_records[-1]["date"] == target_date
+
+
+def get_record_by_date(stored_records: list[Record], target_date: str) -> Record | None:
+    """
+    Fetch record of a specific date and return it.
+    """
+
+    for record in stored_records:
+
+        if record["date"] == target_date:
+            return record
+
+    return None
