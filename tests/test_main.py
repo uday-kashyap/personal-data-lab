@@ -3,15 +3,21 @@ import input_handler
 import storage
 import date_utils
 import presentation
+import records
 
 
-def test_add_record_adds_record_to_the_records(monkeypatch, sample_record):
+def test_add_record_adds_record_to_the_records(
+    monkeypatch, sample_record, sample_user_entries
+):
 
     def fake_save_records(modified_records, storage_location):
         saved["records"] = modified_records
         saved["location"] = storage_location
 
-    monkeypatch.setattr(input_handler, "collect_record", lambda: sample_record)
+    monkeypatch.setattr(
+        input_handler, "collect_user_entries", lambda: sample_user_entries
+    )
+    monkeypatch.setattr(records, "create_record", lambda user_entries: sample_record)
     monkeypatch.setattr(storage, "load_records", lambda storage_location: [])
     monkeypatch.setattr(
         storage, "has_record_for_date", lambda stored_records, target_date: False
@@ -22,8 +28,13 @@ def test_add_record_adds_record_to_the_records(monkeypatch, sample_record):
     assert saved["records"] == [sample_record]
 
 
-def test_add_record_does_not_save_duplicate_record(monkeypatch, sample_record):
-    monkeypatch.setattr(input_handler, "collect_record", lambda: sample_record)
+def test_add_record_does_not_save_duplicate_record(
+    monkeypatch, sample_record, sample_user_entries
+):
+    monkeypatch.setattr(
+        input_handler, "collect_user_entries", lambda: sample_user_entries
+    )
+    monkeypatch.setattr(records, "create_record", lambda user_entries: sample_record)
     monkeypatch.setattr(storage, "load_records", lambda storage_location: [])
     monkeypatch.setattr(
         storage, "has_record_for_date", lambda stored_records, target_date: True
@@ -54,7 +65,7 @@ def test_view_record_displays_queried_record(monkeypatch, sample_record):
     assert presented["record"] == sample_record
 
 
-def test_view_record_could_not_fetch_missing_record(monkeypatch, sample_record):
+def test_view_record_could_not_fetch_missing_record(monkeypatch):
 
     def fake_present_record(record):
         presented["record"] = record

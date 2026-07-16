@@ -1,7 +1,3 @@
-import date_utils
-from models import Record
-from typing import cast
-
 REQUIRED_FIELDS = ("study_hours", "workout_minutes", "expense", "mood")
 
 FIELD_TYPES = {
@@ -19,15 +15,12 @@ FIELD_RANGES = {
 }
 
 
-def collect_record() -> Record:
+def collect_user_entries() -> dict[str, int | float]:
     """
-    Collect a record from the user and return it.
+    Collect required fields from the user and return them.
     """
 
-    record = {}
-
-    # Embed current date in the record
-    record["date"] = date_utils.get_current_date()
+    user_entries = {}
 
     for field in REQUIRED_FIELDS:
         cleaned_field = field.replace("_", " ")
@@ -48,14 +41,14 @@ def collect_record() -> Record:
                     )
                     continue
 
-                record[field] = field_val
+                user_entries[field] = field_val
                 break
 
             except ValueError:
                 print(f'Please enter valid numeric value for "{cleaned_field}"!')
                 continue
 
-    return cast(Record, record)
+    return user_entries
 
 
 def get_user_choice(features_dict: dict) -> int:

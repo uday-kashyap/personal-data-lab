@@ -4,31 +4,29 @@ from main import FEATURES
 import pytest
 
 
-def test_collect_record_returns_a_valid_record(
-    monkeypatch, sample_record, mock_current_date
-):
-    values = [sample_record[field] for field in input_handler.REQUIRED_FIELDS]
+def test_collect_user_entries_returns_user_entries(monkeypatch, sample_user_entries):
+    values = [sample_user_entries[field] for field in input_handler.REQUIRED_FIELDS]
     monkeypatch.setattr(builtins, "input", lambda _: values.pop(0))
-    record = input_handler.collect_record()
-    assert record == sample_record
+    returned_user_entries = input_handler.collect_user_entries()
+    assert returned_user_entries == sample_user_entries
 
 
-def test_collect_record_retries_on_invalid_input_type(
-    monkeypatch, sample_record, mock_current_date
+def test_collect_user_entries_retries_on_invalid_input_type(
+    monkeypatch, sample_user_entries
 ):
     values = ["abc", 24.0, 1440, 10000.0, 5]
     monkeypatch.setattr(builtins, "input", lambda _: values.pop(0))
-    record = input_handler.collect_record()
-    assert record == sample_record
+    returned_user_entries = input_handler.collect_user_entries()
+    assert returned_user_entries == sample_user_entries
 
 
-def test_collect_record_retries_when_input_violates_field_range(
-    monkeypatch, sample_record, mock_current_date
+def test_collect_user_entries_retries_when_input_violates_field_range(
+    monkeypatch, sample_user_entries
 ):
     values = [-24, 24.0, 1441, 1440, -500, 10000.0, 0, 5]
     monkeypatch.setattr(builtins, "input", lambda _: values.pop(0))
-    record = input_handler.collect_record()
-    assert record == sample_record
+    returned_user_entries = input_handler.collect_user_entries()
+    assert returned_user_entries == sample_user_entries
 
 
 @pytest.mark.parametrize("choice", FEATURES.keys())

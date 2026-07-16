@@ -3,6 +3,7 @@ import input_handler
 import date_utils
 import presentation
 import sys
+import records
 
 STORAGE_LOCATION = "data/records.json"
 
@@ -23,7 +24,8 @@ def add_record() -> None:
     Add a user record to a valid JSON file.
     """
 
-    record = input_handler.collect_record()
+    user_entries = input_handler.collect_user_entries()
+    record = records.create_record(user_entries)
     stored_records = storage.load_records(STORAGE_LOCATION)
 
     if storage.has_record_for_date(stored_records, record["date"]):
