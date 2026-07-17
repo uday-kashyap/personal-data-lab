@@ -51,31 +51,23 @@ def test_save_records_adds_new_record(tmp_path, sample_record):
 
 
 @pytest.mark.parametrize(
-    "sample_date, target_date, expected",
-    [("1999/01/01", "1999/01/01", True), ("1999/01/01", "1999/01/02", False)],
+    "target_date, expected", [("1999/01/01", True), ("1999/01/02", False)]
 )
-def test_has_record_for_date_with_existing_records(
-    sample_date, target_date, expected, sample_record
-):
-    stored_record = sample_record.copy()
-    stored_record["date"] = sample_date
+def test_has_record_for_date(sample_record, target_date, expected):
     stored_records = [sample_record]
     result = storage.has_record_for_date(stored_records, target_date)
     assert result is expected
 
 
-def test_has_record_for_date_returns_False_on_missing_records():
-    result = storage.has_record_for_date([], "1999/01/01")
-    assert result is False
-
-
-def test_get_record_by_date_returns_record_of_given_date(sample_record):
+def test_get_record_by_date_returns_record_with_specific_date(sample_record):
     stored_records = [sample_record]
-    record = storage.get_record_by_date(stored_records, "1999/01/01")
-    assert record == sample_record
+    target_date = "1999/01/01"
+    returned_record = storage.get_record_by_date(stored_records, target_date)
+    assert returned_record == sample_record
 
 
-def test_get_record_by_date_returns_None_on_missing_record():
-    stored_records = []
-    record = storage.get_record_by_date(stored_records, "1999/01/01")
-    assert record is None
+def test_get_record_by_date_returns_None_on_missing_record(sample_record):
+    stored_records = [sample_record]
+    target_date = "1999/01/02"
+    returned_record = storage.get_record_by_date(stored_records, target_date)
+    assert returned_record is None

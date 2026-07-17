@@ -44,10 +44,8 @@ def has_record_for_date(stored_records: list[Record], target_date: str) -> bool:
     Return True if a record with target date already exists in records. Otherwise, return False.
     """
 
-    if not stored_records:
-        return False
-
-    return stored_records[-1]["date"] == target_date
+    record_idx = _get_record_index_by_date(stored_records, target_date)
+    return record_idx != -1
 
 
 def get_record_by_date(stored_records: list[Record], target_date: str) -> Record | None:
@@ -55,9 +53,22 @@ def get_record_by_date(stored_records: list[Record], target_date: str) -> Record
     Fetch record of a specific date and return it.
     """
 
-    for record in stored_records:
+    record_idx = _get_record_index_by_date(stored_records, target_date)
 
-        if record["date"] == target_date:
-            return record
+    if record_idx == -1:
+        return None
 
-    return None
+    return stored_records[record_idx]
+
+
+def _get_record_index_by_date(stored_records: list[Record], target_date: str) -> int:
+    """
+    Find a record with specific date and return its index.
+    """
+
+    for record_idx in range(len(stored_records)):
+
+        if stored_records[record_idx]["date"] == target_date:
+            return record_idx
+
+    return -1
