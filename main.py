@@ -25,6 +25,7 @@ def add_record() -> None:
     """
 
     user_entries = input_handler.collect_user_entries()
+    print()
     record = records.create_record(user_entries)
     stored_records = storage.load_records(STORAGE_LOCATION)
 
@@ -43,6 +44,7 @@ def view_record() -> None:
     """
 
     day, month, year = input_handler.get_date_attributes_from_user()
+    print()
     target_date = date_utils.build_date(day, month, year)
     stored_records = storage.load_records(STORAGE_LOCATION)
     record = storage.get_record_by_date(stored_records, target_date)
@@ -60,6 +62,7 @@ def edit_record() -> None:
     """
 
     day, month, year = input_handler.get_date_attributes_from_user()
+    print()
     target_date = date_utils.build_date(day, month, year)
     stored_records = storage.load_records(STORAGE_LOCATION)
 
@@ -67,8 +70,10 @@ def edit_record() -> None:
         print("No record found for the given date!")
         return
 
-    print("Enter your new entries below!")
+    print("Please enter your new entries below!")
+    print()
     new_entries = input_handler.collect_user_entries()
+    print()
     updated_records = storage.get_updated_records(
         stored_records, target_date, new_entries
     )
@@ -83,6 +88,7 @@ def main() -> None:
     storage.ensure_records_file_exists(STORAGE_LOCATION)
     display_menu()
     user_choice = input_handler.get_user_choice(FEATURES)
+    print()
     actions[user_choice]()
 
 
