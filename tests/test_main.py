@@ -82,3 +82,77 @@ def test_view_record_could_not_fetch_missing_record(monkeypatch):
     presented = {}
     main.view_record()
     assert presented == {}
+
+
+def test_edit_record_edits_existing_record(monkeypatch, sample_record):
+
+    def fake_save_records(stored_records, storage_location):
+        saved["records"] = stored_records
+        saved["location"] = storage_location
+
+    monkeypatch.setattr(
+        input_handler, "get_date_attributes_from_user", lambda: (1, 1, 1999)
+    )
+    monkeypatch.setattr(date_utils, "build_date", lambda day, month, year: "1999/01/01")
+    monkeypatch.setattr(
+        storage, "load_records", lambda storage_location: [sample_record]
+    )
+    monkeypatch.setattr(
+        storage, "has_record_for_date", lambda stored_records, target_date: True
+    )
+
+    updated_entries = {
+        "study_hours": 12.0,
+        "workout_minutes": 720,
+        "expense": 5000.0,
+        "mood": 1,
+    }
+
+    updated_record = {**sample_record, **updated_entries}
+
+    monkeypatch.setattr(input_handler, "collect_user_entries", lambda: updated_entries)
+    monkeypatch.setattr(
+        storage,
+        "get_updated_records",
+        lambda stored_records, target_date, new_entries: [updated_record],
+    )
+    monkeypatch.setattr(storage, "save_records", fake_save_records)
+    saved = {}
+    main.edit_record()
+    assert saved["records"] == [updated_record]
+
+
+def test_edit_record_could_not_edit_missing_record(monkeypatch, sample_record):
+
+    def fake_save_records(stored_records, storage_location):
+        saved["records"] = stored_records
+        saved["location"] = storage_location
+
+    monkeypatch.setattr(
+        input_handler, "get_date_attributes_from_user", lambda: (1, 1, 1999)
+    )
+    monkeypatch.setattr(date_utils, "build_date", lambda day, month, year: "1999/01/01")
+    monkeypatch.setattr(storage, "load_records", lambda storage_location: [])
+    monkeypatch.setattr(
+        storage, "has_record_for_date", lambda stored_records, target_date: False
+    )
+
+    updated_entries = {
+        "study_hours": 12.0,
+        "workout_minutes": 720,
+        "expense": 5000.0,
+        "mood": 1,
+    }
+
+    updated_record = {**sample_record, **updated_entries}
+
+    monkeypatch.setattr(input_handler, "collect_user_entries", lambda: updated_entries)
+    monkeypatch.setattr(
+        storage,
+        "get_updated_records",
+        lambda stored_records, target_date, new_entries: [updated_record],
+    )
+    monkeypatch.setattr(storage, "save_records", fake_save_records)
+    saved = {}
+    main.edit_record()
+    assert saved == {}

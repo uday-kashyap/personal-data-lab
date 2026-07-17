@@ -71,3 +71,19 @@ def test_get_record_by_date_returns_None_on_missing_record(sample_record):
     target_date = "1999/01/02"
     returned_record = storage.get_record_by_date(stored_records, target_date)
     assert returned_record is None
+
+
+def test_update_record_updates_existing_record_with_new_entries(sample_record):
+    new_entries = {
+        "study_hours": 12.0,
+        "workout_minutes": 720,
+        "expense": 5000.0,
+        "mood": 1,
+    }
+
+    stored_records = [sample_record]
+    target_date = "1999/01/01"
+    updated_records = storage.get_updated_records(
+        stored_records, target_date, new_entries
+    )
+    assert updated_records == [{"date": "1999/01/01", **new_entries}]

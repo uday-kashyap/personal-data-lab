@@ -7,7 +7,7 @@ import records
 
 STORAGE_LOCATION = "data/records.json"
 
-FEATURES = {1: "Add Record", 2: "View Record", 3: "Exit"}
+FEATURES = {1: "Add Record", 2: "View Record", 3: "Edit Record", 4: "Exit"}
 
 
 def display_menu() -> None:
@@ -54,9 +54,31 @@ def view_record() -> None:
     presentation.present_record(record)
 
 
+def edit_record() -> None:
+    """
+    Edit the existing user record with the new entries.
+    """
+
+    day, month, year = input_handler.get_date_attributes_from_user()
+    target_date = date_utils.build_date(day, month, year)
+    stored_records = storage.load_records(STORAGE_LOCATION)
+
+    if not storage.has_record_for_date(stored_records, target_date):
+        print("No record found for the given date!")
+        return
+
+    print("Enter your new entries below!")
+    new_entries = input_handler.collect_user_entries()
+    updated_records = storage.get_updated_records(
+        stored_records, target_date, new_entries
+    )
+    storage.save_records(updated_records, STORAGE_LOCATION)
+    print("Your record has been updated.")
+
+
 def main() -> None:
 
-    actions = {1: add_record, 2: view_record, 3: sys.exit}
+    actions = {1: add_record, 2: view_record, 3: edit_record, 4: sys.exit}
 
     storage.ensure_records_file_exists(STORAGE_LOCATION)
     display_menu()

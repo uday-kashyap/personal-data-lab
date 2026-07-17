@@ -72,3 +72,18 @@ def _get_record_index_by_date(stored_records: list[Record], target_date: str) ->
             return record_idx
 
     return -1
+
+
+def get_updated_records(
+    stored_records: list[Record], target_date: str, new_entries: dict[str, int | float]
+) -> list[Record]:
+    """
+    Update the existing user record with the new entries and return the updated list of records.
+    """
+
+    record_idx = _get_record_index_by_date(stored_records, target_date)
+
+    for field, new_entry in new_entries.items():
+        stored_records[record_idx][field] = new_entry
+
+    return stored_records
