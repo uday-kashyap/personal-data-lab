@@ -10,15 +10,6 @@ STORAGE_LOCATION = "data/records.json"
 FEATURES = {1: "Add Record", 2: "View Record", 3: "Edit Record", 4: "Exit"}
 
 
-def display_menu() -> None:
-    """
-    Display all the available features.
-    """
-
-    for option_no, feature in FEATURES.items():
-        print(f"{option_no}. {feature}")
-
-
 def add_record() -> None:
     """
     Add a user record to a valid JSON file.
@@ -86,7 +77,7 @@ def main() -> None:
     actions = {1: add_record, 2: view_record, 3: edit_record, 4: sys.exit}
 
     storage.ensure_records_file_exists(STORAGE_LOCATION)
-    display_menu()
+    presentation.display_menu(FEATURES)
     user_choice = input_handler.get_user_choice(FEATURES)
     print()
     actions[user_choice]()

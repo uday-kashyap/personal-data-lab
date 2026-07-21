@@ -11,3 +11,12 @@ def present_record(record: Record) -> None:
         cleaned_field = field.replace("_", " ")
 
         print(f"{cleaned_field.title()}: {field_val}")
+
+
+def display_menu(menu_options: dict[int, str]) -> None:
+    """
+    Display option numbers along with the option name.
+    """
+
+    for option_no, feature in menu_options.items():
+        print(f"{option_no}. {feature}")
