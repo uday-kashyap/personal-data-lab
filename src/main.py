@@ -1,9 +1,9 @@
-import storage
-import input_handler
-import date_utils
-import presentation
+import src.storage as storage
+import src.input_handler as input_handler
+import src.date_utils as date_utils
+import src.presentation as presentation
 import sys
-import records
+import src.records as records
 
 STORAGE_LOCATION = "data/records.json"
 

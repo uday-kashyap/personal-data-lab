@@ -1,9 +1,9 @@
-import main
-import input_handler
-import storage
-import date_utils
-import presentation
-import records
+import src.main as main
+import src.input_handler as input_handler
+import src.storage as storage
+import src.date_utils as date_utils
+import src.presentation as presentation
+import src.records as records
 
 
 def test_add_record_adds_record_to_the_records(

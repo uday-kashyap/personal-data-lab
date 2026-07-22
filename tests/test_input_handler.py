@@ -1,6 +1,6 @@
-import input_handler
+import src.input_handler as input_handler
 import builtins
-from main import FEATURES
+from src.main import FEATURES
 import pytest
 
 

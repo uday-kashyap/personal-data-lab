@@ -1,4 +1,4 @@
-from models import Record
+from src.models import Record
 
 
 def present_record(record: Record) -> None:

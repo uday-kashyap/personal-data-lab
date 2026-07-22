@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ```
 3. Run the app.
 ```bash
-python main.py
+python -m src.main
 ```
 ## Testing
 Application testing covers:  

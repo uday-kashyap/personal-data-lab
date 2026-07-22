@@ -1,6 +1,6 @@
 import os
 import json
-from models import Record
+from src.models import Record
 
 
 def ensure_records_file_exists(storage_location: str) -> None:

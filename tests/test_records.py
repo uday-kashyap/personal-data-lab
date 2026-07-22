@@ -1,5 +1,5 @@
-import records
-import date_utils
+import src.records as records
+import src.date_utils as date_utils
 
 
 def test_create_record_returns_a_valid_record(

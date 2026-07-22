@@ -1,5 +1,5 @@
 import pytest
-from models import Record
+from src.models import Record
 
 
 @pytest.fixture
