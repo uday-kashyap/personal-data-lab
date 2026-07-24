@@ -4,10 +4,18 @@ import src.date_utils as date_utils
 import src.presentation as presentation
 import sys
 import src.records as records
+import src.analytics as analytics
 
 STORAGE_LOCATION = "data/records.json"
 
-FEATURES = {1: "Add Record", 2: "View Record", 3: "Edit Record", 4: "Exit"}
+FEATURES = {
+    1: "Add Record",
+    2: "View Record",
+    3: "Edit Record",
+    4: "Explore Data",
+    5: "Exit",
+}
+EXPLORATION_FEATURES = {1: "Get Summary", 2: "Exit"}
 
 
 def add_record() -> None:
@@ -72,9 +80,43 @@ def edit_record() -> None:
     print("Your record has been updated.")
 
 
+def summarize_records_data() -> None:
+    """
+    Summarize the available data of the records.
+    """
+
+    stored_records = storage.load_records(STORAGE_LOCATION)
+    summarized_data = analytics.generate_summary(stored_records)
+
+    if not summarized_data:
+        print("No record present for forming summary!")
+        return
+
+    presentation.present_summary(summarized_data)
+
+
+def run_exploration_menu() -> None:
+    """
+    Exhibit available features for data exploration.
+    """
+
+    actions = {1: summarize_records_data, 2: sys.exit}
+
+    presentation.display_menu(EXPLORATION_FEATURES)
+    user_choice = input_handler.get_user_choice(EXPLORATION_FEATURES)
+    print()
+    actions[user_choice]()
+
+
 def main() -> None:
 
-    actions = {1: add_record, 2: view_record, 3: edit_record, 4: sys.exit}
+    actions = {
+        1: add_record,
+        2: view_record,
+        3: edit_record,
+        4: run_exploration_menu,
+        5: sys.exit,
+    }
 
     storage.ensure_records_file_exists(STORAGE_LOCATION)
     presentation.display_menu(FEATURES)

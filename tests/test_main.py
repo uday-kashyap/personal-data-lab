@@ -4,6 +4,7 @@ import src.storage as storage
 import src.date_utils as date_utils
 import src.presentation as presentation
 import src.records as records
+import src.analytics as analytics
 
 
 def test_add_record_adds_record_to_the_records(
@@ -156,3 +157,38 @@ def test_edit_record_could_not_edit_missing_record(monkeypatch, sample_record):
     saved = {}
     main.edit_record()
     assert saved == {}
+
+
+def test_summarize_records_data_could_not_summarize_missing_records(monkeypatch):
+    def fake_present_summary(summarized_data):
+        presented["summarized_data"] = summarized_data
+
+    monkeypatch.setattr(storage, "load_records", lambda storage_location: [])
+    monkeypatch.setattr(analytics, "generate_summary", lambda stored_records: None)
+    monkeypatch.setattr(presentation, "present_summary", fake_present_summary)
+    presented = {}
+    main.summarize_records_data()
+    assert presented == {}
+
+
+def test_summarize_records_data_summarizes_exisiting_records(
+    monkeypatch, sample_records
+):
+    def fake_present_summary(summarized_data):
+        presented["summarized_data"] = summarized_data
+
+    monkeypatch.setattr(
+        storage, "load_records", lambda storage_location: sample_records
+    )
+    expected = {
+        "total_records": 3,
+        "avg_study_hours": 12.50,
+        "avg_workout_minutes": 742.00,
+        "avg_mood": 6.00,
+        "avg_expense": 5000.33,
+    }
+    monkeypatch.setattr(analytics, "generate_summary", lambda stored_records: expected)
+    monkeypatch.setattr(presentation, "present_summary", fake_present_summary)
+    presented = {}
+    main.summarize_records_data()
+    assert presented["summarized_data"] == expected

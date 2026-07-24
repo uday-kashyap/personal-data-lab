@@ -21,3 +21,24 @@ def sample_user_entries() -> dict[str, int | float]:
         "expense": 10000.0,
         "mood": 5,
     }
+
+
+@pytest.fixture
+def sample_records(sample_record) -> list[dict[str, int | float]]:
+    sample_record1 = sample_record
+    sample_record2 = {
+        "date": "1999/01/02",
+        "study_hours": 12.0,
+        "workout_minutes": 786,
+        "expense": 5000.0,
+        "mood": 3,
+    }
+    sample_record3 = {
+        "date": "1999/01/03",
+        "study_hours": 1.5,
+        "workout_minutes": 0,
+        "expense": 1.0,
+        "mood": 10,
+    }
+
+    return [sample_record1, sample_record2, sample_record3]
