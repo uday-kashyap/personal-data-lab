@@ -6,8 +6,6 @@ The **Personal Data Lab** is a CLI based application which is designed to
 keep track of daily habits of the user by storing their personal data.
 
 It asks the user to enter entries such as ***'sleep hours'***, ***'workout minutes'***, ***'expense'*** and ***'mood'*** regularly (which are used to form a **record**) in order to store, analyze and showcase user's productivity through mathematical operations and visualizations.
-> [!IMPORTANT]  
-> Any kind of data exploration (such as Analytics or Visualization) is still under development.
 ## Features
 - **Add** new personal records.
 - **View** previously saved records.
