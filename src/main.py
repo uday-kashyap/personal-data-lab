@@ -5,17 +5,9 @@ import src.presentation as presentation
 import sys
 import src.records as records
 import src.analytics as analytics
+import src.features_info as features_info
 
 STORAGE_LOCATION = "data/records.json"
-
-FEATURES = {
-    1: "Add Record",
-    2: "View Record",
-    3: "Edit Record",
-    4: "Explore Data",
-    5: "Exit",
-}
-EXPLORATION_FEATURES = {1: "Get Summary", 2: "Exit"}
 
 
 def add_record() -> None:
@@ -102,8 +94,8 @@ def run_exploration_menu() -> None:
 
     actions = {1: summarize_records_data, 2: sys.exit}
 
-    presentation.display_menu(EXPLORATION_FEATURES)
-    user_choice = input_handler.get_user_choice(EXPLORATION_FEATURES)
+    presentation.display_menu(features_info.EXPLORATION_FEATURES)
+    user_choice = input_handler.get_user_choice(features_info.EXPLORATION_FEATURES)
     print()
     actions[user_choice]()
 
@@ -119,8 +111,8 @@ def main() -> None:
     }
 
     storage.ensure_records_file_exists(STORAGE_LOCATION)
-    presentation.display_menu(FEATURES)
-    user_choice = input_handler.get_user_choice(FEATURES)
+    presentation.display_menu(features_info.FEATURES)
+    user_choice = input_handler.get_user_choice(features_info.FEATURES)
     print()
     actions[user_choice]()
 

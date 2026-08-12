@@ -1,18 +1,4 @@
-REQUIRED_FIELDS = ("study_hours", "workout_minutes", "expense", "mood")
-
-FIELD_TYPES = {
-    "study_hours": float,
-    "workout_minutes": int,
-    "expense": float,
-    "mood": int,
-}
-
-FIELD_RANGES = {
-    "study_hours": (0, 24),
-    "workout_minutes": (0, 1440),
-    "expense": (0, float("inf")),
-    "mood": (1, 10),
-}
+import src.features_info as features_info
 
 
 def collect_user_entries() -> dict[str, int | float]:
@@ -22,18 +8,18 @@ def collect_user_entries() -> dict[str, int | float]:
 
     user_entries = {}
 
-    for field in REQUIRED_FIELDS:
+    for field in features_info.REQUIRED_FIELDS:
         cleaned_field = field.replace("_", " ")
 
         while True:
 
             try:
-                field_val = FIELD_TYPES[field](
+                field_val = features_info.FIELD_TYPES[field](
                     input(f"Enter your {cleaned_field} for today: ")
                 )
 
                 # Verify range
-                min_range_val, max_range_val = FIELD_RANGES[field]
+                min_range_val, max_range_val = features_info.FIELD_RANGES[field]
 
                 if not (min_range_val <= field_val <= max_range_val):
                     print(

@@ -1,11 +1,11 @@
 import src.input_handler as input_handler
 import builtins
-from src.main import FEATURES
+import src.features_info as features_info
 import pytest
 
 
 def test_collect_user_entries_returns_user_entries(monkeypatch, sample_user_entries):
-    values = [sample_user_entries[field] for field in input_handler.REQUIRED_FIELDS]
+    values = [sample_user_entries[field] for field in features_info.REQUIRED_FIELDS]
     monkeypatch.setattr(builtins, "input", lambda _: values.pop(0))
     returned_user_entries = input_handler.collect_user_entries()
     assert returned_user_entries == sample_user_entries
@@ -29,10 +29,10 @@ def test_collect_user_entries_retries_when_input_violates_field_range(
     assert returned_user_entries == sample_user_entries
 
 
-@pytest.mark.parametrize("choice", FEATURES.keys())
+@pytest.mark.parametrize("choice", features_info.FEATURES.keys())
 def test_get_user_choice_returns_a_valid_choice(monkeypatch, choice):
     monkeypatch.setattr(builtins, "input", lambda _: choice)
-    returned_choice = input_handler.get_user_choice(FEATURES)
+    returned_choice = input_handler.get_user_choice(features_info.FEATURES)
     assert returned_choice == choice
 
 
@@ -40,7 +40,7 @@ def test_get_user_choice_retries_on_invalid_choice(monkeypatch):
     choices = [10000, -1, 0, 1]
     valid_value = 1
     monkeypatch.setattr(builtins, "input", lambda _: choices.pop(0))
-    returned_choice = input_handler.get_user_choice(FEATURES)
+    returned_choice = input_handler.get_user_choice(features_info.FEATURES)
     assert returned_choice == valid_value
 
 
@@ -48,7 +48,7 @@ def test_get_user_choice_retries_on_invalid_choice_type(monkeypatch):
     choices = ["abc", "-1.5", "0", ".", "1"]
     valid_value = 1
     monkeypatch.setattr(builtins, "input", lambda _: choices.pop(0))
-    returned_choice = input_handler.get_user_choice(FEATURES)
+    returned_choice = input_handler.get_user_choice(features_info.FEATURES)
     assert returned_choice == valid_value
 
 
