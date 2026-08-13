@@ -87,12 +87,29 @@ def summarize_records_data() -> None:
     presentation.present_summary(summarized_data)
 
 
+def highest_in_a_day() -> None:
+    """
+    Provide the highest values of all the fields along with their corresponding dates.
+    """
+
+    stored_records = storage.load_records(STORAGE_LOCATION)
+    highest_val_and_date_data = analytics.get_highest_val_and_corresponding_dates(
+        stored_records
+    )
+
+    if not highest_val_and_date_data:
+        print("No records are present!")
+        return
+
+    presentation.present_highest_in_a_day(highest_val_and_date_data)
+
+
 def run_exploration_menu() -> None:
     """
     Exhibit available features for data exploration.
     """
 
-    actions = {1: summarize_records_data, 2: sys.exit}
+    actions = {1: summarize_records_data, 2: highest_in_a_day, 3: sys.exit}
 
     presentation.display_menu(features_info.EXPLORATION_FEATURES)
     user_choice = input_handler.get_user_choice(features_info.EXPLORATION_FEATURES)

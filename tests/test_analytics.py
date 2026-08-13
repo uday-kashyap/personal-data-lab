@@ -44,3 +44,21 @@ def test_get_average_for_a_day_returns_average_values_for_existing_records(
 ):
     avg = analytics.get_average_for_a_day(sample_records, field_name)
     assert avg == expected
+
+
+def test_get_highest_val_and_corresponding_dates_returns_None_for_missing_records():
+    field_data = analytics.get_highest_val_and_corresponding_dates([])
+    assert field_data is None
+
+
+def test_get_highest_val_and_corresponding_dates_returns_field_data_for_existing_records(
+    sample_records,
+):
+    field_data = analytics.get_highest_val_and_corresponding_dates(sample_records)
+    expected = {
+        "study_hours": {24.0: ["1999/01/01"]},
+        "workout_minutes": {1440: ["1999/01/01"]},
+        "expense": {10000.0: ["1999/01/01"]},
+        "mood": {10: ["1999/01/03"]},
+    }
+    assert field_data == expected

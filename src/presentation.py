@@ -46,3 +46,22 @@ def present_summary(summarized_data: dict[str, int | float]) -> None:
         print(f"{cleaned_stat.title()}: {stat_val} {stat_unit}")
 
     print("=============================")
+
+
+def present_highest_in_a_day(
+    field_data: dict[str, dict[int | float, list[str]]],
+) -> None:
+    """
+    Display the highest values of all the fields with their corresponding dates.
+    """
+
+    print("========== Highest Overall For Each Field ==========")
+
+    for field in field_data:
+        cleaned_field = field.replace("_", " ")
+        high_val = next(iter(field_data[field]))
+        corresponding_dates = ", ".join(field_data[field][high_val])
+
+        print(f"Highest {cleaned_field.title()}: {high_val} ( {corresponding_dates} )")
+
+    print("====================================================")

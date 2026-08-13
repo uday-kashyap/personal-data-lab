@@ -6,7 +6,7 @@ FEATURES = {
     5: "Exit",
 }
 
-EXPLORATION_FEATURES = {1: "Get Summary", 2: "Exit"}
+EXPLORATION_FEATURES = {1: "Get Summary", 2: "Highest In A Day", 3: "Exit"}
 
 REQUIRED_FIELDS = ("study_hours", "workout_minutes", "expense", "mood")
 

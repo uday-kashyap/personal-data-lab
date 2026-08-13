@@ -160,6 +160,7 @@ def test_edit_record_could_not_edit_missing_record(monkeypatch, sample_record):
 
 
 def test_summarize_records_data_could_not_summarize_missing_records(monkeypatch):
+
     def fake_present_summary(summarized_data):
         presented["summarized_data"] = summarized_data
 
@@ -171,9 +172,10 @@ def test_summarize_records_data_could_not_summarize_missing_records(monkeypatch)
     assert presented == {}
 
 
-def test_summarize_records_data_summarizes_exisiting_records(
+def test_summarize_records_data_summarizes_existing_records(
     monkeypatch, sample_records
 ):
+
     def fake_present_summary(summarized_data):
         presented["summarized_data"] = summarized_data
 
@@ -192,3 +194,41 @@ def test_summarize_records_data_summarizes_exisiting_records(
     presented = {}
     main.summarize_records_data()
     assert presented["summarized_data"] == expected
+
+
+def test_highest_in_a_day_could_not_fetch_field_stats_for_missing_records(monkeypatch):
+
+    def fake_present_highest_in_a_day(field_data):
+        presented["field_data"] = field_data
+
+    monkeypatch.setattr(storage, "load_records", lambda storage_location: [])
+    monkeypatch.setattr(
+        presentation, "present_highest_in_a_day", fake_present_highest_in_a_day
+    )
+    presented = {}
+    main.highest_in_a_day()
+    assert presented == {}
+
+
+def test_highest_in_a_day_presents_highest_vals_and_dates_for_each_field(
+    monkeypatch, sample_records
+):
+
+    def fake_present_highest_in_a_day(field_data):
+        presented["field_data"] = field_data
+
+    monkeypatch.setattr(
+        storage, "load_records", lambda storage_location: sample_records
+    )
+    monkeypatch.setattr(
+        presentation, "present_highest_in_a_day", fake_present_highest_in_a_day
+    )
+    presented = {}
+    expected = {
+        "study_hours": {24.0: ["1999/01/01"]},
+        "workout_minutes": {1440: ["1999/01/01"]},
+        "expense": {10000.0: ["1999/01/01"]},
+        "mood": {10: ["1999/01/03"]},
+    }
+    main.highest_in_a_day()
+    assert presented["field_data"] == expected
