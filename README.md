@@ -12,7 +12,9 @@ It asks the user to enter entries such as ***'sleep hours'***, ***'workout minut
 - **Edit** existing records.
 ## Project Structure
 - `tests/` contains automated unit tests for application's components.
+- `analytics.py` handles data exploration operations.
 - `date_utils.py` handles date related operations.
+- `features_info.py` contains available features information.
 - `input_handler.py` handles user inputs.
 - `main.py` is an application entry point.
 - `models.py` defines shared data models used throughout the application.
