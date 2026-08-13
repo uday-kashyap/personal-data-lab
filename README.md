@@ -23,7 +23,7 @@ It asks the user to enter entries such as ***'sleep hours'***, ***'workout minut
 1. Clone this repository.  
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 3. Run the app.
 ```bash
